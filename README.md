@@ -28,6 +28,8 @@ The system is designed for **safety monitoring in homes, labs, or workplaces** w
 
 ## 🔌 Hardware Requirements
 
+![Project Overview](Photos/ProjectOverview.jpg)   
+
 **Arduino Uno Sensor Hub:**
 - Arduino Uno  
 - DS18B20 Temperature Sensor (with 4.7kΩ pull-up)  
@@ -61,8 +63,6 @@ Note: The system is implemented on a single combined board integrating the Ardui
 ---
 
 ## ⚙️ Installation
-
-![Project Overview](Photos/ProjectOverview.jpg)   
 
 **1. Arduino Uno Sensor Hub**
 1. Connect sensors, LCD, and buzzer to Arduino Uno according to the pin table.  
