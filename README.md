@@ -1,6 +1,6 @@
 # 🏠 Smart Home Sensor Hub (Arduino Uno & ESP8266)
 
-![Project Overview](images/project_overview.jpg)   
+![Project Overview](images/Project_Overview.jpg)   
      
 This project combines an Arduino Uno-based Sensor Hub and an ESP8266-based MQTT Gateway on a single custom board for compact and integrated monitoring.  
 For users who do not have a combined board, a separate Arduino Uno and ESP8266 can also be connected following the step-by-step instructions provided in the setup section.
