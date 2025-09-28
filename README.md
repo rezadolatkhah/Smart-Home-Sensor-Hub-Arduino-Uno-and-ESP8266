@@ -47,6 +47,36 @@ Note: The system is implemented on a single combined board integrating the Ardui
 
 ---
 
+## 💻 Software Requirements
+
+- **Arduino IDE** (or compatible platform)  
+- **Libraries**:  
+  - DallasTemperature (for DS18B20)  
+  - OneWire (for DS18B20 communication)  
+  - LiquidCrystal (for LCD control)  
+  - PubSubClient (for MQTT on ESP8266)  
+  - ArduinoJson (for JSON formatting on ESP8266)  
+
+---
+
+## ⚙️ Installation
+
+**1. Arduino Uno Sensor Hub**
+1. Connect sensors, LCD, and buzzer to Arduino Uno according to the pin table.  
+2. Add 4.7kΩ pull-up resistor for DS18B20.  
+3. Install libraries via Arduino Library Manager.  
+4. Upload the Arduino sketch.  
+5. Open the Serial Monitor to verify data output.
+
+**2. ESP8266 MQTT Gateway**
+1. Connect the ESP8266 to the Arduino Uno via the Serial (TX/RX).  
+2. Configure Wi-Fi SSID/password and MQTT broker info in the ESP8266 sketch.  
+3. Install required libraries (`ESP8266WiFi`, `PubSubClient`, `ArduinoJson`).  
+4. Upload the ESP8266 sketch.  
+5. Verify MQTT messages on your broker (separate topics for data and alarms).  
+
+---
+
 ## 📍 Pin Connections
 
 ![Pin Connections](Photos/Pin_Connections.jpg)
@@ -81,36 +111,6 @@ Note: The system is implemented on a single combined board integrating the Ardui
 - Connect to Wi-Fi and the MQTT broker
 
 Note: The system is implemented on a single combined board integrating the Arduino Uno sensor hub and ESP8266 MQTT gateway, simplifying wiring and assembly.
-
----
-
-## 💻 Software Requirements
-
-- **Arduino IDE** (or compatible platform)  
-- **Libraries**:  
-  - DallasTemperature (for DS18B20)  
-  - OneWire (for DS18B20 communication)  
-  - LiquidCrystal (for LCD control)  
-  - PubSubClient (for MQTT on ESP8266)  
-  - ArduinoJson (for JSON formatting on ESP8266)  
-
----
-
-## ⚙️ Installation
-
-**1. Arduino Uno Sensor Hub**
-1. Connect sensors, LCD, and buzzer to Arduino Uno according to the pin table.  
-2. Add 4.7kΩ pull-up resistor for DS18B20.  
-3. Install libraries via Arduino Library Manager.  
-4. Upload the Arduino sketch.  
-5. Open the Serial Monitor to verify data output.
-
-**2. ESP8266 MQTT Gateway**
-1. Connect the ESP8266 to the Arduino Uno via the Serial (TX/RX).  
-2. Configure Wi-Fi SSID/password and MQTT broker info in the ESP8266 sketch.  
-3. Install required libraries (`ESP8266WiFi`, `PubSubClient`, `ArduinoJson`).  
-4. Upload the ESP8266 sketch.  
-5. Verify MQTT messages on your broker (separate topics for data and alarms).  
 
 ---
 
