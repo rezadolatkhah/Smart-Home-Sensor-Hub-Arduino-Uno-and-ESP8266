@@ -35,11 +35,11 @@ The system is designed for **safety monitoring in homes, labs, or workplaces** w
 - DS18B20 Temperature Sensor (with 4.7kΩ pull-up)  
 - MQ2 Gas Sensor  
 - MQ7 Gas Sensor  
-- Vibration Sensor (digital)  
+- SW-420 Vibration Sensor (digital)  
 - 16x2 LCD Display
 - 10kΩ potentiometer for LCD contrast  
 - Buzzer  
-- Breadboard + jumper wires  
+- Mini Breadboard + jumper wires  
 
 **ESP8266 MQTT Gateway:**
 - ESP8266 (NodeMCU, Wemos D1 Mini, etc.)  
