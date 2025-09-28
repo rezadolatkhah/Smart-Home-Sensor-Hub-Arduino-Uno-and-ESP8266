@@ -34,7 +34,8 @@ The system is designed for **safety monitoring in homes, labs, or workplaces** w
 - MQ2 Gas Sensor  
 - MQ7 Gas Sensor  
 - Vibration Sensor (digital)  
-- 16x2 LCD Display  
+- 16x2 LCD Display
+- 10kΩ potentiometer for LCD contrast  
 - Buzzer  
 - Breadboard + jumper wires  
 
