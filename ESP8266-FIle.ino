@@ -69,7 +69,7 @@ void reconnect() {
 }
 
 // ===============================
-//   Send MQTT Message (JSON)
+//   Send MQTT Message
 // ===============================
 void sendMQTT(const char* topic, const String& payload) {
   if (client.publish(topic, payload.c_str())) {
@@ -108,17 +108,17 @@ void loop() {
     String msg = Serial.readStringUntil('\n'); 
     msg.trim();                                
 
-    // Handle incoming "DATA" message
-    if (msg.startsWith("DATA:")) {  // Use simple tag without emoji
-      lastData = msg.substring(5); 
-      Serial.println("📥 Data Received: " + lastData);
+    // Handle incoming JSON directly
+    if (msg.startsWith("{")) {  
+      lastData = msg; 
+      Serial.println("📥 JSON Data Received: " + lastData);
     }
-    // Handle incoming "ALARM" message
+    // Handle incoming ALARM messages
     else if (msg.startsWith("ALARM:")) {  
       lastAlarm = msg.substring(6); 
       Serial.println("🚨 Alarm Received: " + lastAlarm);
 
-      // Immediately send alarm via MQTT (JSON)
+      // Immediately send alarm via MQTT (with latest sensor data)
       StaticJsonDocument<200> doc;
       doc["type"] = "ALARM";
       doc["alarm"] = lastAlarm;
@@ -127,7 +127,7 @@ void loop() {
       serializeJson(doc, buffer);
       sendMQTT(mqtt_alarm_topic, String(buffer));
 
-      lastSendTime = millis(); // Reset timer to avoid duplicate send
+      lastSendTime = millis(); // Reset timer
     }
   }
 
@@ -140,6 +140,6 @@ void loop() {
     serializeJson(doc, buffer);
     sendMQTT(mqtt_data_topic, String(buffer));
 
-    lastSendTime += sendInterval; // Prevent drift
+    lastSendTime += sendInterval;
   }
 }
