@@ -190,7 +190,7 @@ or for normal data:
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.  
+This project is licensed under the [MIT License](https://github.com/rezadolatkhah/Smart-Home-Sensor-Hub-Arduino-Uno-and-ESP8266/blob/main/LICENSE.txt).  
 
 ---
 
