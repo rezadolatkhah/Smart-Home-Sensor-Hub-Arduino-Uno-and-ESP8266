@@ -2,7 +2,7 @@
 //   Gas, Vibration & Temperature Alarm System
 //   Using DS18B20, MQ2, MQ7, and Vibration Sensor
 //   With LCD + Buzzer Output
-//   Improved & Refactored Version
+//   Improved Version with Sensor Error Handling
 // ===============================
 
 // --- Libraries (for temperature sensor, LCD, and OneWire protocol)
@@ -26,7 +26,7 @@ DallasTemperature sensors(&oneWire);
 
 // --- Sensor Thresholds & Variables
 const int MQ_THRESHOLD = 350;  // Threshold for MQ2 & MQ7 sensors
-float currentTemp = 0.0;       // Current temperature
+float currentTemp = -127.0;    // Default invalid value for temperature
 int MQ2Value = 0;              // MQ2 sensor value
 int MQ7Value = 0;              // MQ7 sensor value
 int vibrationValue = 0;        // Vibration sensor value
@@ -45,7 +45,8 @@ const unsigned long alarmDuration = 5000;      // Alarm duration (5s)
 //   Setup Function
 // ===============================
 void setup() {
-  Serial.begin(9600);              // Start serial communication
+  Serial.begin(9600);              // Start serial communication with ESP8266
+  sensors.begin();                 // Initialize DS18B20 temperature sensor
   sensors.setResolution(11);       // Set DS18B20 resolution (11-bit)
 
   lcd.begin(16, 2);                // Initialize LCD (16x2)
@@ -61,24 +62,30 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
 
-  // --- Read Sensor Values
-  MQ2Value = analogRead(MQ2_PIN);                // Read MQ2
-  MQ7Value = analogRead(MQ7_PIN);                // Read MQ7
-  vibrationValue = digitalRead(VIB_PIN);         // Read vibration
-  sensors.requestTemperatures();                 // Request temperature
-  currentTemp = sensors.getTempCByIndex(0);      // Get temperature in Celsius
+  // --- Read Gas & Vibration Sensors
+  MQ2Value = analogRead(MQ2_PIN);        // Read MQ2
+  MQ7Value = analogRead(MQ7_PIN);        // Read MQ7
+  vibrationValue = digitalRead(VIB_PIN); // Read vibration
 
-  // --- Check DS18B20 errors
-  if (currentTemp == DEVICE_DISCONNECTED_C) {
-    Serial.println("ERROR: Temp sensor disconnected");
-    currentTemp = -127; // invalid value
+  // --- Read Temperature Sensor
+  sensors.requestTemperatures();                 
+  float tempReading = sensors.getTempCByIndex(0);
+
+  // If DS18B20 is disconnected or error → mark as invalid
+  if (tempReading == DEVICE_DISCONNECTED_C) {
+    Serial.println("⚠️ ERROR: Temp sensor disconnected");
+    currentTemp = -127; // Keep invalid value, but don’t break JSON
+  } else {
+    currentTemp = tempReading;
   }
 
   // --- Send Live Data over Serial (every 1 second, JSON format)
   if (currentMillis - lastDataSend >= dataSendInterval) {
     lastDataSend = currentMillis;
+
+    // JSON-like output, always includes all fields (even if invalid)
     Serial.print("{\"TEMP\":");
-    Serial.print(currentTemp, 1);
+    Serial.print(currentTemp, 1);   // -127 if invalid
     Serial.print(",\"MQ2\":");
     Serial.print(MQ2Value);
     Serial.print(",\"MQ7\":");
@@ -88,7 +95,7 @@ void loop() {
     Serial.println("}");
   }
 
-  // --- Alarm Check
+  // --- Alarm Check (only if no current alarm)
   if (currentAlarm == NONE) {
     if (vibrationValue == HIGH) {
       startAlarm(VIB_ALARM, "EARTHQUAKE!", "!!DANGER!!");
@@ -97,26 +104,30 @@ void loop() {
     } else if (MQ7Value >= MQ_THRESHOLD) {
       startAlarm(MQ7_ALARM, "!MONOXIDE GAS!", "!!DANGER!!");
     }
-  } else {
-    // If alarm active → manage buzzer blinking & check timeout
+  } 
+  else {
+    // --- If alarm active → manage buzzer + timeout
     if (currentMillis - alarmStartTime < alarmDuration) {
       // Blink buzzer every 500ms
       if ((currentMillis / 500) % 2 == 0) digitalWrite(BUZZER_PIN, HIGH);
       else digitalWrite(BUZZER_PIN, LOW);
     } else {
-      // End alarm
+      // End alarm after timeout
       digitalWrite(BUZZER_PIN, LOW);
       lcd.clear();
       currentAlarm = NONE;
     }
   }
 
-  // --- Display Values on LCD when no alarm
+  // --- Display Sensor Values on LCD (only when no alarm)
   if (currentAlarm == NONE) {
     lcd.setCursor(0, 0);
     lcd.print("Temp: ");
-    lcd.print(currentTemp, 1);
-    lcd.print(" C");
+    if (currentTemp == -127) lcd.print("ERR"); // Show error if temp invalid
+    else {
+      lcd.print(currentTemp, 1);
+      lcd.print(" C");
+    }
 
     lcd.setCursor(0, 1);
     lcd.print("M2:");
