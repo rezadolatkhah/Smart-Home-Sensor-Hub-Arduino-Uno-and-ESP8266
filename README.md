@@ -62,7 +62,7 @@ Note: The system is implemented on a single combined board integrating the Ardui
 
 ## ⚙️ Installation
 
-![Project Overview](Photos/Project_Overview.jpg)   
+![Project Overview](Photos/ProjectOverview.jpg)   
 
 **1. Arduino Uno Sensor Hub**
 1. Connect sensors, LCD, and buzzer to Arduino Uno according to the pin table.  
