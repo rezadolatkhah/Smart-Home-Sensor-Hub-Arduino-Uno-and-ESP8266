@@ -49,17 +49,35 @@ Note: The system is implemented on a single combined board integrating the Ardui
 
 ## 📍 Pin Connections
 
-| Component         | Arduino Pin       |
-|-------------------|------------------|
-| DS18B20 (OneWire) | D11              |
-| Vibration Sensor  | D10              |
-| Buzzer            | D12              |
-| MQ2 Sensor        | A0               |
-| MQ7 Sensor        | A4               |
-| LCD (RS,E,D4–D7)  | D2,D3,D4,D5,D6,D7 |
+![Pin Connections](Photos/Pin_Connections.jpg)
+
+📍 LCD 16×2 Pin Connections
+
+| LCD Pin | Function              | Arduino Pin / Note                     |
+|---------|---------------------|---------------------------------------|
+| 1 (VSS) | GND                  | GND                                   |
+| 2 (VDD) | VCC                  | 5V                                    |
+| 3 (V0)  | Contrast adjustment  | Middle pin of 10kΩ potentiometer; other two pins to 5V and GND |
+| 4 (RS)  | Register Select      | D2                                     |
+| 5 (RW)  | Read/Write           | GND (for write mode)                  |
+| 6 (E)   | Enable               | D3                                     |
+| 7 (D0)  | Data bit 0           | Not used (4-bit mode)                 |
+| 8 (D1)  | Data bit 1           | Not used (4-bit mode)                 |
+| 9 (D2)  | Data bit 2           | Not used (4-bit mode)                 |
+| 10 (D3) | Data bit 3           | Not used (4-bit mode)                 |
+| 11 (D4) | Data bit 4           | D4                                     |
+| 12 (D5) | Data bit 5           | D5                                     |
+| 13 (D6) | Data bit 6           | D6                                     |
+| 14 (D7) | Data bit 7           | D7                                     |
+| 15 (A / LED+) | Backlight +       | 5V (through current-limiting resistor, e.g., 220Ω) |
+| 16 (K / LED−) | Backlight −       | GND                                   |
+
 
 **ESP8266**  
-- Connect to Arduino via Serial (TX/RX)  
+- Connect to Arduino via Serial (TX/RX)
+  - Arduino RX to ESP TX
+  - Arduino TX to ESP RX
+  - ESP GND to Arduino GND (Common GND)
 - Connect to Wi-Fi and the MQTT broker
 
 Note: The system is implemented on a single combined board integrating the Arduino Uno sensor hub and ESP8266 MQTT gateway, simplifying wiring and assembly.
