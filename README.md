@@ -163,6 +163,8 @@ Note: The system is implemented on a single combined board integrating the Ardui
 
 ## 📷 Example Outputs
 
+![Screenshot.jpg](Photos/Screenshot.jpg)   
+
 **Arduino Serial (Normal DATA):**
 {"TEMP":25.5,"MQ2":200,"MQ7":150,"VIB":0}
 
