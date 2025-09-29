@@ -23,6 +23,13 @@ The system is designed for **safety monitoring in homes, labs, or workplaces** w
   - Separate MQTT topics for **normal data** (`myhome/data`) and **alarms** (`myhome/alarm`).  
 - 🌐 **Wi-Fi Resilience**: ESP8266 automatically reconnects to Wi-Fi and MQTT without blocking.  
 
+---
+
+## ℹ️ Why MQTT?
+
+This project was originally planned to use Arduino IoT Cloud for data monitoring.
+However, in Iran, Arduino Cloud services are not accessible — even with DNS, VPN, or other workarounds.
+To overcome this limitation, the system was designed with MQTT using a public broker, which is globally accessible and integrates easily with dashboards or mobile apps.
 
 ---
 
@@ -84,33 +91,30 @@ Note: The system is implemented on a single combined board integrating the Ardui
 
 ![Pin Connections](Photos/Pin_Connections.jpg)
 
-📍 LCD 16×2 Pin Connections
+| Component          | Arduino Pin / Connection |
+|--------------------|--------------------------|
+| DS18B20            | D11                      |
+| MQ2 Gas Sensor     | A0                       |
+| MQ7 Gas Sensor     | A1                       |
+| Vibration Sensor   | D2                       |
+| Buzzer             | D8                       |
+| LED Alarm          | D9                       |
+| LCD RS             | D7                       |
+| LCD E (Enable)     | D6                       |
+| LCD D4             | D5                       |
+| LCD D5             | D4                       |
+| LCD D6             | D3                       |
+| LCD D7             | D2                       |
+| LCD VCC            | +5V                      |
+| LCD GND            | GND                      |
+| LCD V0 (Contrast)  | Middle pin of 10k pot    |
+| Potentiometer Left | +5V                      |
+| Potentiometer Right| GND                      |
+| LCD A (Backlight+) | +5V (via resistor)       |
+| LCD K (Backlight-) | GND                      |
+| ESP8266 RX         | Arduino TX (D1/D0)*      |
+| ESP8266 TX         | Arduino RX (D0/D1)*      |
 
-| LCD Pin | Function              | Arduino Pin / Note                     |
-|---------|---------------------|---------------------------------------|
-| 1 (VSS) | GND                  | GND                                   |
-| 2 (VDD) | VCC                  | 5V                                    |
-| 3 (V0)  | Contrast adjustment  | Middle pin of 10kΩ potentiometer; other two pins to 5V and GND |
-| 4 (RS)  | Register Select      | D2                                     |
-| 5 (RW)  | Read/Write           | GND (for write mode)                  |
-| 6 (E)   | Enable               | D3                                     |
-| 7 (D0)  | Data bit 0           | Not used (4-bit mode)                 |
-| 8 (D1)  | Data bit 1           | Not used (4-bit mode)                 |
-| 9 (D2)  | Data bit 2           | Not used (4-bit mode)                 |
-| 10 (D3) | Data bit 3           | Not used (4-bit mode)                 |
-| 11 (D4) | Data bit 4           | D4                                     |
-| 12 (D5) | Data bit 5           | D5                                     |
-| 13 (D6) | Data bit 6           | D6                                     |
-| 14 (D7) | Data bit 7           | D7                                     |
-| 15 (A / LED+) | Backlight +       | 5V (through current-limiting resistor, e.g., 220Ω) |
-| 16 (K / LED−) | Backlight −       | GND                                   |
-
-
-**ESP8266**  
-- Connect to Arduino via Serial (TX/RX)
-  - Arduino RX to ESP TX
-  - Arduino TX to ESP RX
-  - ESP GND to Arduino GND (Common GND)
 - Connect to Wi-Fi and the MQTT broker
 
 Note: The system is implemented on a single combined board integrating the Arduino Uno sensor hub and ESP8266 MQTT gateway, simplifying wiring and assembly.
@@ -171,13 +175,19 @@ ALARM:2
 {
   "type": "ALARM",
   "alarm": "MQ2 Gas High",
-  "data": "{\"TEMP\":26.0,\"MQ2\":400,\"MQ7\":180,\"VIB\":0}"
+  "TEMP": 26.0,
+  "MQ2": 400,
+  "MQ7": 180,
+  "VIB": 0
 }
 
 or for normal data:
 {
   "type": "DATA",
-  "data": "{\"TEMP\":25.5,\"MQ2\":200,\"MQ7\":150,\"VIB\":0}"
+  "TEMP": 25.5,
+  "MQ2": 200,
+  "MQ7": 150,
+  "VIB": 0
 }
 ```
 
