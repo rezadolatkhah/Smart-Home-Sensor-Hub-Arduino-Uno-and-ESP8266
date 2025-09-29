@@ -10,16 +10,16 @@
 
 // ----------- Wi-Fi Settings -----------
 // Replace with your Wi-Fi credentials
-const char* ssid = "Home";          
-const char* password = "13781374";  
+const char* ssid = "Your_Wi-FI_SSID";          
+const char* password = "Your_Wi-Fi_Password";  
 
 // ----------- MQTT Settings -----------
 // MQTT broker configuration and topics
-const char* mqtt_server = "broker.hivemq.com";   
+const char* mqtt_server = "your_mqtt_server";   
 const int   mqtt_port = 1883;                    
-const char* mqtt_data_topic  = "myhome/data";     
-const char* mqtt_alarm_topic = "myhome/alarm";     
-const char* mqtt_client_id   = "ESP8266_Client_1"; 
+const char* mqtt_data_topic  = "your/topic1";     
+const char* mqtt_alarm_topic = "your/topic2";     
+const char* mqtt_client_id   = "your_client_id"; 
 
 // WiFi and MQTT client objects
 WiFiClient espClient;
