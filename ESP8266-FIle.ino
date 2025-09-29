@@ -31,7 +31,7 @@ PubSubClient client(espClient);
 String lastData = "";       
 String lastAlarm = "";      
 unsigned long lastSendTime = 0;               // timestamp of last periodic publish
-const unsigned long sendInterval = 30000;    // how often to publish regular DATA (ms)
+const unsigned long sendInterval = 5000;    // how often to publish regular DATA (ms)
 
 // Flag to ensure "Connected" message is published only once after first MQTT connect
 bool firstConnect = true;   // برای اینکه "Connected" فقط یکبار ارسال بشه
