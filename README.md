@@ -2,7 +2,7 @@
 Click on the image to watch the video.
 [![Watch the video](Photos/Thumbnail.jpg)](https://www.youtube.com/watch?v=cwjAtl-GNTM)
      
-This project combines an Arduino Uno-based Sensor Hub and an ESP8266-based MQTT Gateway on a single custom board for compact and integrated monitoring.  
+This project combines an Arduino Uno-based Sensor Hub and an ESP8266-based MQTT Gateway (to deliver sensor readings and alerts directly to smartphones) on a single custom board for compact and integrated monitoring.  
 For users who do not have a combined board, a separate Arduino Uno and ESP8266 can also be connected following the step-by-step instructions provided in the setup section.
  
 It monitors temperature, gas levels(LPG, i-butane, propane, **methane**, alcohol, Hydrogen, **smoke**), and vibrations(earthquakes), and triggers alarms when thresholds are exceeded.  
